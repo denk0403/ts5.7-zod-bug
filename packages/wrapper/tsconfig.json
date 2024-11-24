@@ -28,9 +28,5 @@
   "include": [
     "**/*.ts"
   ],
-  "references": [
-    {
-      "path": "../test-type/tsconfig.json"
-    }
-  ]
+  "references": []
 }

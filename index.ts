@@ -1,12 +1,7 @@
-import { TestSchema } from "./packages/test-schema";
 import { foo } from "./packages/foo";
+import { TestWrapper } from "./packages/test-wrapper";
+import { unwrap } from "./packages/wrapper";
 
-const parseResult = TestSchema.safeParse({
-  prop1: {
-    prop1: "hello",
-  },
-});
+const unwrappedTest = unwrap(TestWrapper);
 
-if (parseResult.success) {
-  foo(parseResult.data);
-}
+foo(unwrappedTest);
