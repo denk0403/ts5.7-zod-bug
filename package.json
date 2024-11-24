@@ -4,17 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsc -b tsconfig.json",
-    "build": "tsc -b tsconfig.json",
     "tsc": "tsc -b tsconfig.json"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
-    "vite": "^5.1.6"
+    "typescript": "^5.7.2"
   }
 }
