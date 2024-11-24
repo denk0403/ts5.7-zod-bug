@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# Type Assertion Bug in TypeScript 5.7
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Steps to Reproduce
 
-Currently, two official plugins are available:
+1. Run `pnpm i` to install dependencies. Make sure TypeScript v5.7.2 is installed.
+2. Run `pnpm tsc` to perform type-checking. You should see the following error output:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+Conversion of type 'ZodObject<{ prop1: ZodObject<{ prop1: ZodType<"hello", ZodTypeDef, "hello">; }, "strip", ZodTypeAny, { prop1: ZodType<"hello", ZodTypeDef, "hello">; }, { ...; }>; }, "strip", ZodTypeAny, { ...; }, { ...; }>' to type 'ZodType<Test, ZodTypeDef, Test>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  The types of '_type.prop1.prop1' are incompatible between these types.
+    Type 'ZodType<"hello", ZodTypeDef, "hello">' is not comparable to type '"hello"'.
 
-## Expanding the ESLint configuration
+5 export const TestSchema = z.object({
+                            ~~~~~~~~~~
+6   prop1: innerSchema,
+  ~~~~~~~~~~~~~~~~~~~~~
+7 }) as ZodType<Test>;
+  ~~~~~~~~~~~~~~~~~~~
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+Found 1 error.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
+ ELIFECYCLE  Command failed with exit code 2.
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+3. Next, run `pnpm i typescript@5.6.3` to install TypeScript 5.6.3.
+4. Run `pnpm tsc` and see that the error is no longer present.
